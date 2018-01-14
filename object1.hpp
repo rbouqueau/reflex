@@ -4,7 +4,7 @@
 #include "reflex.hpp"
 
 struct Object1 : IObject {
-	BOOST_DI_INJECT(Object1, int a);
+	Object1(int a);
 
 private:
 	int a;
