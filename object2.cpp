@@ -1,4 +1,5 @@
 #include "object2.hpp"
 
-REFLEX_CTOR(Object2, int a) : a(a) {
+//Romain: REFLEX_CTOR(Object2, int a, int b) : a(a), b(b) {
+	Object2::Object2( int a, int b) : a(a), b(b) {
 };

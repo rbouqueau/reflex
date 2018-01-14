@@ -1,22 +1,21 @@
 #include "registry.hpp"
 #include "object1.hpp"
 #include "object2.hpp"
-#include <stdexcept>
+#include <cassert>
+#include <iostream>
 
-static std::map<const std::string, CreationFunc> g_registry;
+#define MAX_ENTITY_TYPES 2048
+static EntityType g_registry[MAX_ENTITY_TYPES];
+static int g_registrySize;
 
-std::unique_ptr<IObject> createObject(const std::string &name, IConfig &config) {
-	auto i_func = g_registry.find(name);
-	if (i_func == g_registry.end())
-		throw std::runtime_error("unknown object type: '" + name + "'");
-
-	return (*i_func).second(config);
+int registerObject(const char *format, std::unique_ptr<IObject>(*func)(IConfig &config)) {
+	assert(g_registrySize < sizeof(g_registry) / sizeof(g_registry[0]));
+	g_registry[g_registrySize++] = EntityType{ format, func };
+	return g_registrySize;
 }
 
-void registerFormat(const std::string &format, CreationFunc func) {
-	g_registry[format] = func;
-}
-
-const std::map<const std::string, CreationFunc> getRegistry() {
-	return g_registry;
+void registryListAll() {
+	for (int i = 0; i < g_registrySize; ++i) {
+		std::cout << "Object #" << i << ": " << g_registry[i].name << std::endl;
+	}
 }

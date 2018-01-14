@@ -4,8 +4,8 @@
 #include "reflex.hpp"
 
 struct Object2 : IObject {
-	Object2(int a);
+	Object2(int a, int b);
 
 private:
-	int a;
+	int a, b;
 };
